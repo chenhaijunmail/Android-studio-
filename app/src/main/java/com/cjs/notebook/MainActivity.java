@@ -65,16 +65,18 @@ public class MainActivity extends Activity implements OnScrollListener,
         });
         DB = new NotesDB(this);
         dbread = DB.getReadableDatabase();
+
         // 清空数据库表中内容
         //dbread.execSQL("delete from note");
-        RefreshNotesList();
+        refreshNotesList();
 
         listview.setOnItemClickListener(this);
         listview.setOnItemLongClickListener(this);
         listview.setOnScrollListener(this);
     }
 
-    public void RefreshNotesList() {
+    public void refreshNotesList() {
+
 
         int size = dataList.size();
         if (size > 0) {
@@ -82,14 +84,14 @@ public class MainActivity extends Activity implements OnScrollListener,
             simp_adapter.notifyDataSetChanged();
             listview.setAdapter(simp_adapter);
         }
-        simp_adapter = new SimpleAdapter(this, getData(), R.layout.item,
+        dataList=getData();
+        simp_adapter = new SimpleAdapter(this, dataList, R.layout.item,
                 new String[] { "tv_content", "tv_date" }, new int[] {
                 R.id.tv_content, R.id.tv_date });
         listview.setAdapter(simp_adapter);
     }
 
     private List<Map<String, Object>> getData() {
-
         Cursor cursor = dbread.query("note", null, "content!=\"\"", null, null,
                 null, null);
 
@@ -140,6 +142,7 @@ public class MainActivity extends Activity implements OnScrollListener,
         Log.d("CONTENT", content1);
         Cursor c = dbread.query("note", null,
                 "content=" + "'" + content1 + "'", null, null, null, null);
+        Log.d("CONTENT", c.getCount()+"");
         while (c.moveToNext()) {
             String No = c.getString(c.getColumnIndex("_id"));
             Log.d("TEXT", No);
@@ -165,7 +168,7 @@ public class MainActivity extends Activity implements OnScrollListener,
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 2) {
-            RefreshNotesList();
+            refreshNotesList();
         }
     }
 
@@ -190,7 +193,7 @@ public class MainActivity extends Activity implements OnScrollListener,
                     String sql_del = "update note set content='' where _id="
                             + id;
                     dbread.execSQL(sql_del);
-                    RefreshNotesList();
+                    refreshNotesList();
                 }
             }
         });

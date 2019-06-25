@@ -48,7 +48,7 @@ public class NoteEdit extends Activity {
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
 		DB = new NotesDB(this);
-		dbread = DB.getReadableDatabase();
+		dbread = DB.getWritableDatabase();
 
 		Bundle myBundle = this.getIntent().getExtras();
 		last_content = myBundle.getString("info");
@@ -85,7 +85,7 @@ public class NoteEdit extends Activity {
 				else {
 						String updatesql = "update note set content='"
 								+ content + "' where _id=" + id;
-						dbread.execSQL(updatesql);
+					dbread.execSQL(updatesql);
 						// et_content.setText(last_content);
 				}
 				Intent data = new Intent();
