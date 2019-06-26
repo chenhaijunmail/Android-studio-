@@ -42,6 +42,7 @@ public class MainActivity extends Activity implements OnScrollListener,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //启动APP就会弹出对话框
         new AlertDialog.Builder(MainActivity.this)
                 .setIcon(android.R.drawable.star_on)
                 .setTitle("关于")
@@ -88,6 +89,7 @@ public class MainActivity extends Activity implements OnScrollListener,
         listview.setOnScrollListener(this);
     }
 
+    //清除数据
     public void refreshNotesList() {
         int size = dataList.size();
         if (size > 0) {
@@ -102,6 +104,7 @@ public class MainActivity extends Activity implements OnScrollListener,
         listview.setAdapter(simp_adapter);
     }
 
+    //从数据库查询数据
     private List<Map<String, Object>> getData() {
         Cursor cursor = dbread.query("note", null, "content!=\"\"", null, null,
                 null, null);
@@ -122,7 +125,6 @@ public class MainActivity extends Activity implements OnScrollListener,
     @Override
     public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
         // TODO Auto-generated method stub
-
     }
 
     // 滑动listview监听事件
@@ -147,13 +149,12 @@ public class MainActivity extends Activity implements OnScrollListener,
         // TextView
         // content=(TextView)listview.getChildAt(arg2).findViewById(R.id.tv_content);
         // String content1=content.toString();
-        String content = listview.getItemAtPosition(arg2) + "";
-        String content1 = content.substring(content.indexOf("=") + 1,
-                content.indexOf(","));
-        Log.d("CONTENT", content1);
+        String content = listview.getItemAtPosition(arg2) + "";//{tv_date=2019-06-26, tv_content=爸爸家里}
+        String content1 = content.substring(content.lastIndexOf("=") + 1,content.length()-1);
+        Log.d("CONTENT", content);
 
 //        Cursor cursor = dbread.query("note", null, "content!=\"\"", null, null,
-//                null, null);
+//                null, null);{tv_date=2019-06-26, tv_content=爸爸家里}
 
 
         Cursor c = dbread.query("note", null,"content=" + "'" + content1 + "'", null, null, null, null);
@@ -164,7 +165,7 @@ public class MainActivity extends Activity implements OnScrollListener,
             // Intent intent = new Intent(mContext, NoteEdit.class);
             // intent.putExtra("data", text);
             // setResult(4, intent);
-            // // intent.putExtra("data",text);
+            // intent.putExtra("data",text);
             // startActivityForResult(intent, 3);
             Intent myIntent = new Intent();
             Bundle bundle = new Bundle();
@@ -198,8 +199,8 @@ public class MainActivity extends Activity implements OnScrollListener,
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String content = listview.getItemAtPosition(n) + "";
-                String content1 = content.substring(content.indexOf("=") + 1,
-                        content.indexOf(","));
+                String content1 = content.substring(content.lastIndexOf("=") + 1,content.length()-1);
+                Log.d("CONTENT", content1);
                 Cursor c = dbread.query("note", null, "content=" + "'"
                         + content1 + "'", null, null, null, null);
                 while (c.moveToNext()) {
@@ -214,11 +215,11 @@ public class MainActivity extends Activity implements OnScrollListener,
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
             }
         });
         builder.create();
         builder.show();
         return true;
     }
-
 }

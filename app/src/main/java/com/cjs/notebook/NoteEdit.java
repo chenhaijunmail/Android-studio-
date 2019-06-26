@@ -18,10 +18,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class NoteEdit extends Activity {
-	private TextView tv_date;
-	private EditText et_content;
-	private Button btn_ok;
-	private Button btn_cancel;
+	private TextView tv_date;//
+	private EditText et_content;//编辑框
+	private Button btn_ok;//保存按钮
+	private Button btn_cancel;//保存按钮
 	private NotesDB DB;
 	private SQLiteDatabase dbread;
 	public static int ENTER_STATE = 0;
@@ -58,7 +58,7 @@ public class NoteEdit extends Activity {
 		btn_ok = (Button) findViewById(R.id.btn_ok);
 		btn_ok.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
-				// 获取内容ssssssss
+				// 获取内容
 				String content = et_content.getText().toString();
 				Log.d("LOG1", content);
 				// 获取当前事件
