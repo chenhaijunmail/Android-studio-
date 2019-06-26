@@ -58,7 +58,7 @@ public class NoteEdit extends Activity {
 		btn_ok = (Button) findViewById(R.id.btn_ok);
 		btn_ok.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
-				// 获取内容
+				// 获取内容ssssssss
 				String content = et_content.getText().toString();
 				Log.d("LOG1", content);
 				// 获取当前事件

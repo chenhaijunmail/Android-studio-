@@ -32,16 +32,28 @@ public class MainActivity extends Activity implements OnScrollListener,
         OnItemClickListener, OnItemLongClickListener {
 
     private Context mContext;
-    private ListView listview;
+    private ListView listview;//定义列表
     private SimpleAdapter simp_adapter;
-    private List<Map<String, Object>> dataList;
-    private Button addNote;
+    private List<Map<String, Object>> dataList;//定义数组
+    private Button addNote;//保存按钮
     private TextView tv_content;
     private NotesDB DB;
     private SQLiteDatabase dbread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setIcon(android.R.drawable.star_on)
+                .setTitle("关于")
+                .setMessage("APP名称：备忘录\n" +
+                            "制作人：Chenhaijun\n" +
+                            "App版本：V1.0.1\n" +
+                            "注意！此APP仅用于学习，禁止用于商业")
+                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).create().show();
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
@@ -71,13 +83,12 @@ public class MainActivity extends Activity implements OnScrollListener,
         refreshNotesList();
 
         listview.setOnItemClickListener(this);
+        listview.setOnItemClickListener(this);
         listview.setOnItemLongClickListener(this);
         listview.setOnScrollListener(this);
     }
 
     public void refreshNotesList() {
-
-
         int size = dataList.size();
         if (size > 0) {
             dataList.removeAll(dataList);
@@ -140,10 +151,14 @@ public class MainActivity extends Activity implements OnScrollListener,
         String content1 = content.substring(content.indexOf("=") + 1,
                 content.indexOf(","));
         Log.d("CONTENT", content1);
-        Cursor c = dbread.query("note", null,
-                "content=" + "'" + content1 + "'", null, null, null, null);
+
+//        Cursor cursor = dbread.query("note", null, "content!=\"\"", null, null,
+//                null, null);
+
+
+        Cursor c = dbread.query("note", null,"content=" + "'" + content1 + "'", null, null, null, null);
         Log.d("CONTENT", c.getCount()+"");
-        while (c.moveToNext()) {
+        if (c.moveToNext()) {
             String No = c.getString(c.getColumnIndex("_id"));
             Log.d("TEXT", No);
             // Intent intent = new Intent(mContext, NoteEdit.class);
@@ -159,7 +174,6 @@ public class MainActivity extends Activity implements OnScrollListener,
             myIntent.setClass(MainActivity.this, NoteEdit.class);
             startActivityForResult(myIntent, 1);
         }
-
     }
 
     @Override
@@ -174,11 +188,11 @@ public class MainActivity extends Activity implements OnScrollListener,
 
     // 长按item的点击事件
     @Override
-    public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
-                                   long arg3) {
+    public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
         final int n=arg2;
         Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("删除该日志吗？");
+        builder.setTitle("删除该条备忘录吗？");
+        builder.setIcon(android.R.drawable.btn_dialog);
         builder.setMessage("确认删除吗？");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override

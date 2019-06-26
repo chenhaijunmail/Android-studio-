@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_content"
@@ -11,13 +11,14 @@
         android:layout_marginLeft="10dp"
         android:singleLine="true"
         android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textSize="25dp"/>
 
     <TextView
         android:id="@+id/tv_date"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="TextView" />
+        android:textSize="20dp"
+        android:text="TextView"/>
     
 </LinearLayout>
