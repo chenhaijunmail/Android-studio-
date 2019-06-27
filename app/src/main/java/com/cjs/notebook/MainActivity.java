@@ -48,7 +48,7 @@ public class MainActivity extends Activity implements OnScrollListener,
                 .setTitle("关于")
                 .setMessage("APP名称：备忘录\n" +
                             "制作人：Chenhaijun\n" +
-                            "App版本：V1.0.1\n" +
+                            "App版本：V1.0.3\n" +
                             "注意！此APP仅用于学习，禁止用于商业")
                 .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
